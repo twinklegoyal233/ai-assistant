@@ -1,58 +1,48 @@
-import React, { useContext, useState } from 'react'
-import './Main.css'
-import { assets } from '../../assets/assets'
-import { Context } from '../../context/Context'
+import { useContext } from "react";
+import { assets } from "../../assets/assets";
+import "./Main.css";
+import { Context } from "../../context/Context";
 
 const Main = () => {
 
-  const { onSent,
-    recentPrompt,
-    showResult,
-    loading,
-    resultData,
-    setInput,
-    input
-  } = useContext(Context);
+    const { onSent,
+        recentPrompt,
+        showResult,
+        loading,
+        resultData,
+        setInput,
+        input
+      } = useContext(Context);
 
+      const handleKeyPress = (event) => {
+        if (event.key === 'Enter' && input.trim()) {
+          onSent();
+        }
+      };
 
   return (
-    <div className='main'>
+    <div className="main">
       <div className="nav">
-        <p>Gemini</p>
-        <img src={assets.user_icon} alt="" />
+        <p>AI-assistant</p>
+        <img src={assets.twinkle_icon} alt="" />
       </div>
       <div className="main-container">
-        {showResult
-          ? <div className="result">
-            <div className='result-title'>
-              <img src={assets.user_icon} alt="" />
-              <p>{recentPrompt}</p>
-            </div>
-            <div className="result-data">
-              <img src={assets.gemini_icon} alt="" />
-              {loading
-                ? <div className="loader">
-                  <hr className="animated-bg" />
-                  <hr className="animated-bg" />
-                  <hr className="animated-bg" />
-                </div>
-                : <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
-              }
-            </div>
 
+      {!showResult ? 
+      <>
+ <div className="greet">
+          <p>
+            <span>Hello, Twinkle...</span>
+          </p>
+          <p>How can I help you today?</p>
+        </div>
+        <div className="cards">
+          <div className="card">
+            <p>Suggest good shopping areas in delhi for ethnic wear..</p>
+            <img src={assets.compass_icon} alt="" />
           </div>
-          : <>
-            <div className="greet">
-              <p><span>Hello, Dev.</span></p>
-              <p>How can I help you today?</p>
-            </div>
-            <div className="cards">
-              <div className="card">
-                <p>Suggest beautiful places to see on an upcoming road trip</p>
-                <img src={assets.compass_icon} alt="" />
-              </div>
-              <div className="card">
-                <p>Briefly summarize this concept: urban planning</p>
+          <div className="card">
+                <p>For a person to be appointed as the judge of the High Court, what should be the qualifications?</p>
                 <img src={assets.bulb_icon} alt="" />
               </div>
               <div className="card">
@@ -60,31 +50,44 @@ const Main = () => {
                 <img src={assets.message_icon} alt="" />
               </div>
               <div className="card">
-                <p>Improve the readability of the following code</p>
-                <img src={assets.code_icon} alt="" />
+                <p>Debug my code and also improve the readability</p>
+                <img  src={assets.code_icon} alt="" />
               </div>
-            </div>
-          </>
-        }
+        </div>
+      </> : <div className="result">
+        <div className="result-title">
+          <img src={assets.twinkle_icon} alt="" />
+          <p>{recentPrompt}</p>
+        </div>
+        <div className="result-data">
+          <img src={assets.gemini_icon} alt="" />
+          {loading ? <div className="loader">
+          <hr/>
+          <hr/>
+          <hr/>
+          </div> :   <p dangerouslySetInnerHTML={{__html : resultData}}  ></p>
+          }
+        
+        </div>
+      </div>
+      }
 
-
-
+       
         <div className="main-bottom">
-          <div className="search-box">
-            <input onChange={(e) => setInput(e.target.value)} value={input} type="text" placeholder='Enter a prompt here' />
-            <div>
-              <img src={assets.gallery_icon} width={30} alt="" />
-              <img src={assets.mic_icon} width={30} alt="" />
-              {input ? <img onClick={() => onSent()} src={assets.send_icon} width={30} alt="" /> : null}
+            <div className="search-box">
+                <input    onKeyPress={handleKeyPress} onChange={e => setInput(e.target.value) } value={input} type="text" placeholder="Enter a prompt here"/>
+                <div>
+                   
+                   {input ?  <img onClick={() => onSent()} src={assets.send_icon} alt="" /> : <img src={assets.send_icon} alt=""/>}
+                </div>
             </div>
-          </div>
-          <p className="bottom-info">
-            Gemini may display inaccurate info, including about people, so double-check its responses. Your privacy and Gemini Apps
-          </p>
+            <p className="bottom-info">
+            AI-assistant may display inaccurate info, including about people, so double-check its responses.  
+            </p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
